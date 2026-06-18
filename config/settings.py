@@ -12,6 +12,7 @@ DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -24,6 +25,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -76,6 +78,13 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CELERY_BROKER_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
@@ -90,3 +99,27 @@ MATCHER_SHORTLIST_SIZE = int(os.getenv("MATCHER_SHORTLIST_SIZE", "5"))
 
 GENERATOR_MIN_MINUTES = int(os.getenv("GENERATOR_MIN_MINUTES", "1"))
 GENERATOR_MAX_MINUTES = int(os.getenv("GENERATOR_MAX_MINUTES", "6"))
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Track Analytics",
+    "site_header": "Track Analytics",
+    "site_brand": "Track Analytics",
+    "welcome_sign": "Track Analytics boshqaruv paneli",
+    "copyright": "Track Analytics",
+    "search_model": ["matching.Zapros", "matching.Malumot"],
+    "icons": {
+        "matching.Zapros": "fas fa-truck-loading",
+        "matching.Malumot": "fas fa-truck",
+        "matching.AgentTaklif": "fas fa-robot",
+        "auth.User": "fas fa-user",
+        "auth.Group": "fas fa-users",
+    },
+    "show_ui_builder": False,
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "darkly",
+    "dark_mode_theme": "darkly",
+    "navbar": "navbar-dark",
+    "sidebar": "sidebar-dark-primary",
+}
